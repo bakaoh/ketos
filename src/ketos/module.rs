@@ -499,24 +499,7 @@ fn find_source_file(src_path: &Path) -> ModuleFileResult {
 }
 
 fn is_younger(a: &Path, b: &Path) -> Result<bool, Error> {
-    let ma = a.metadata()
-        .map_err(|e| IoError::new(IoMode::Stat, a, e))?;
-    let mb = b.metadata()
-        .map_err(|e| IoError::new(IoMode::Stat, b, e))?;
-
-    Ok(is_younger_impl(&ma, &mb))
-}
-
-#[cfg(unix)]
-fn is_younger_impl(ma: &Metadata, mb: &Metadata) -> bool {
-    use std::os::unix::fs::MetadataExt;
-    (ma.mtime(), ma.mtime_nsec()) > (mb.mtime(), mb.mtime_nsec())
-}
-
-#[cfg(windows)]
-fn is_younger_impl(ma: &Metadata, mb: &Metadata) -> bool {
-    use std::os::windows::fs::MetadataExt;
-    ma.last_write_time() > mb.last_write_time()
+    Ok(false)
 }
 
 fn load_module_from_file(ctx: Context, name: Name,
