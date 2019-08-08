@@ -100,7 +100,7 @@ impl Context {
         let n = self.run_level.get();
         self.run_level.set(n + 1);
         if n == 0 {
-            self.run_start.set(Some(Instant::now()));
+            // self.run_start.set(Some(Instant::now()));
         }
     }
 

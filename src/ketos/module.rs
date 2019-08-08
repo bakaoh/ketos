@@ -1,7 +1,7 @@
 //! Implements loading named values from code modules.
 
 use std::cell::RefCell;
-use std::fs::{File, Metadata};
+use std::fs::{File};
 use std::io::{stderr, Read, Write};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
@@ -210,14 +210,14 @@ impl ModuleCode {
 
 /// Loads modules into the running program and caches previously loaded modules
 pub struct ModuleRegistry {
-    loader: Box<ModuleLoader>,
+    loader: Box<dyn ModuleLoader>,
     modules: RefCell<NameMap<Module>>,
 }
 
 impl ModuleRegistry {
     /// Creates a new `ModuleRegistry` using the given `ModuleLoader`
     /// to load new modules.
-    pub fn new(loader: Box<ModuleLoader>) -> ModuleRegistry {
+    pub fn new(loader: Box<dyn ModuleLoader>) -> ModuleRegistry {
         ModuleRegistry{
             loader,
             modules: RefCell::new(NameMap::new()),
@@ -498,8 +498,8 @@ fn find_source_file(src_path: &Path) -> ModuleFileResult {
     }
 }
 
-fn is_younger(a: &Path, b: &Path) -> Result<bool, Error> {
-    Ok(false)
+fn is_younger(_a: &Path, _b: &Path) -> Result<bool, Error> {
+    Ok(true)
 }
 
 fn load_module_from_file(ctx: Context, name: Name,

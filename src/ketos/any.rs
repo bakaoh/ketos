@@ -12,7 +12,7 @@ pub struct TraitObject {
 // Implements downcast methods for a trait object type
 macro_rules! impl_any_cast {
     ( $ty:ident ) => {
-        impl $ty {
+        impl dyn $ty {
             /// Returns whether the contained value is of the given type.
             pub fn is<T: $ty>(&self) -> bool {
                 self.type_id() == ::std::any::TypeId::of::<T>()
